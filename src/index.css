@@ -1,0 +1,240 @@
+.card-effect {
+  transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
+}
+
+.card-effect:hover,
+.card-effect:focus {
+  translate: 0 -5px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.border-focus {
+  border-radius: 5px;
+  box-shadow: none;
+}
+.border-focus:hover,
+.border-focus:focus {
+  border-color: black;
+  border: 2px solid black;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+.modal-content {
+  padding: 10px;
+  border-radius: 16px;
+}
+/**/
+/* #signup {
+  min-height: 90vh;
+  max-height: 98vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#signup .wrapper {
+  width: 350px;
+  height: 450px;
+  padding: 20px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+#signup .wrapper .form-inside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+} */
+/**/
+#signup,
+#signin {
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+  /* Login & Signup Form CSS Start */
+}
+#signup *,
+#signin * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  /* font-family: "Poppins", sans-serif; */
+}
+.signin-wrapper,
+.signup-wrapper {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  max-height: 98vh;
+  background: transparent;
+  padding: 0 10px; */
+  /* background-color: red; */
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#signup,
+#signin {
+  background: #fff;
+  max-width: 400px;
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+    0 32px 64px -48px rgba(0, 0, 0, 0.5);
+}
+#signup .form,
+#signin .form {
+  padding: 25px 30px;
+}
+#signup .form header,
+#signin .form header {
+  font-size: 25px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+}
+#signup .form form,
+#signin .form form {
+  margin: 20px 0;
+}
+#signup .form form .error-text,
+#signin .form form .error-text {
+  color: #721c24;
+  padding: 8px 10px;
+  text-align: center;
+  border-radius: 5px;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  margin-bottom: 10px;
+  /* display: none; */
+}
+#signup .form form .name-details,
+#signin .form form .name-details {
+  display: flex;
+}
+#signup .form .name-details .field:first-child,
+#signin .form .name-details .field:first-child {
+  margin-right: 10px;
+}
+#signup .form .name-details .field:last-child,
+#signin .form .name-details .field:last-child {
+  margin-left: 10px;
+}
+#signup .form form .field,
+#signin .form form .field {
+  display: flex;
+  margin-bottom: 10px;
+  flex-direction: column;
+  position: relative;
+}
+#signup .form form .field label,
+#signin .form form .field label {
+  margin-bottom: 2px;
+}
+#signup .form form input,
+#signin .form form input {
+  height: 40px;
+  width: 100%;
+  font-size: 16px;
+  padding: 0 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+#signup .form form .field input,
+#signin .form form .field input {
+  outline: none;
+}
+#signup .form form .image input,
+#signin .form form .image input {
+  font-size: 17px;
+}
+
+#signup .shadow-none:focus {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+}
+
+#signup .submit-btn,
+#signin .form form .button {
+  width: 100%;
+  height: 45px;
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  background: #333;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 13px;
+}
+#signup .form form .field i,
+#signin .form form .field i {
+  position: absolute;
+  right: 15px;
+  top: 70%;
+  color: #ccc;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+#signup .form form .field i.active::before,
+#signin .form form .field i.active::before {
+  color: #333;
+  content: "\f070";
+}
+#signup .form .link,
+#signin .form .link {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 17px;
+}
+#signup .form .link a,
+#signin .form .link a {
+  color: #333;
+}
+#signup .form .link a:hover,
+#signin .form .link a:hover {
+  text-decoration: underline;
+}
+/*app container*/
+#app {
+  background: #fff;
+  min-height: 98vh;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+    0 32px 64px -48px rgba(0, 0, 0, 0.5);
+}
+#notes-hover,
+#edit-hover,
+#notes-new-hover {
+  background-color: red;
+  background: #fff;
+  min-height: 98vh;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+    0 32px 64px -48px rgba(0, 0, 0, 0.5);
+}
+.css-t3ipsp-control:hover,
+.css-t3ipsp-control:focus {
+  border-color: black;
+}
+.css-t3ipsp-control {
+  border-color: black;
+}
+.select-tags .css-t3ipsp-control {
+  border-color: black;
+}
+.select-tags .css-t3ipsp-control:hover,
+.select-tags .css-t3ipsp-control:focus {
+  border-color: black;
+  box-shadow: none;
+}
+
+img {
+  max-width: 350px;
+  max-height: 500px;
+}
