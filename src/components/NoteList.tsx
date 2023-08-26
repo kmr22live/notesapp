@@ -24,6 +24,7 @@ type SimplifiedNote = {
   title: string | undefined;
   id: string;
   markdown?: string;
+  image?: string | null;
 };
 
 type NoteListProps = {
@@ -68,7 +69,7 @@ export function NoteList({
   console.log("select", selectedTags);
 
   return (
-    <>
+    <div id="app">
       <Row className="align-items-center mb-4">
         <Col>
           <h1>Notes</h1>
@@ -152,21 +153,53 @@ export function NoteList({
           </Col>
         </Row>
       </Form>
-      <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
-        {filteredNotes.map((note) => {
-          console.log(note);
-          return (
-            <Col key={note.id}>
-              <NoteCard
-                id={note.id}
-                title={note.title}
-                tags={note.tags}
-                markdown={note.markdown}
-              />
-            </Col>
-          );
-        })}
-      </Row>
+      {filteredNotes.length < 1 ? (
+        <div>
+          <div className="text-center h5">Welcome to our Notes Taking App!</div>
+          <div className="p-2">
+            Here's how you can get started:
+            <br /> <strong>1. Create a New Note:- </strong>Click on the "Take a
+            Note" to create a new note. - Enter a title for your note in the
+            designated field. - Write down your notes in the text area provided.
+            - You can also add tags to categorize your notes by clicking on the
+            "Tags" .
+            <br /> <strong>2. Edit and Manage Notes: - </strong>To edit an
+            existing note, click on the note's title or content. - Edit the
+            note's title or content as needed and save your changes. - You can
+            also delete a note by clicking on the "Delete" button.
+            <br /> <strong>3. Tag Management: - </strong>Click on the "Edit
+            Tags" button to manage your tags. - Rename or delete existing tags,
+            and add new ones to help organize your notes.
+            <br /> <strong>4. Search and Filter: - </strong>Use the search title
+            to quickly find notes and tags. - Filter your notes by selecting
+            specific tags to narrow down your search tag.
+            <br /> <strong>5. Account and Sign Out: - </strong>If you have an
+            account, you'll see your email displayed in the top right corner. -
+            To sign out, simply click on the "Sign Out" button. We hope you find
+            our app helpful for keeping your notes organized.
+            <br /> If you have any questions or need assistance, feel free to
+            reach out to our support team.
+            <br /> <strong>Happy note-taking!</strong>
+          </div>
+        </div>
+      ) : (
+        <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
+          {filteredNotes.map((note) => {
+            console.log(note);
+            return (
+              <Col key={note.id}>
+                <NoteCard
+                  id={note.id}
+                  title={note.title}
+                  tags={note.tags}
+                  markdown={note.markdown}
+                  image={note.image}
+                />
+              </Col>
+            );
+          })}
+        </Row>
+      )}
       <EditTagsModal
         onUpdateTag={onUpdateTag}
         onDeleteTag={onDeleteTag}
@@ -174,11 +207,11 @@ export function NoteList({
         handleClose={() => setEditTagsModalIsOpen(false)}
         availableTags={availableTags}
       />
-    </>
+    </div>
   );
 }
 
-function NoteCard({ id, title, tags, markdown }: SimplifiedNote) {
+function NoteCard({ id, title, tags, markdown, image }: SimplifiedNote) {
   return (
     <Card
       as={Link}
@@ -194,6 +227,11 @@ function NoteCard({ id, title, tags, markdown }: SimplifiedNote) {
             </Badge>
           ))}
         </Stack>
+      )}
+      {image && (
+        <div className="d-flex justify-content-center align-items-center mb-2">
+          <Card.Img variant="top" style={{ maxWidth: "250px" }} src={image} />
+        </div>
       )}
       <Card.Body>
         <Stack gap={2} className="h-100">
@@ -223,25 +261,30 @@ function EditTagsModal({
       <Modal.Body>
         <Form>
           <Stack gap={2}>
-            {availableTags.map((tag) => (
-              <Row key={tag.id}>
-                <Col>
-                  <Form.Control
-                    type="text"
-                    value={tag.label}
-                    onChange={(e) => onUpdateTag(tag.id, e.target.value)}
-                  />
-                </Col>
-                <Col xs="auto">
-                  <Button
-                    onClick={() => onDeleteTag(tag.id)}
-                    variant="outline-danger"
-                  >
-                    &times;
-                  </Button>
-                </Col>
-              </Row>
-            ))}
+            {availableTags.length < 1 ? (
+              <div className="text-center">No tags available</div>
+            ) : (
+              availableTags.map((tag) => (
+                <Row key={tag.id}>
+                  <Col>
+                    <Form.Control
+                      type="text"
+                      value={tag.label}
+                      className="shadow-none border-focus"
+                      onChange={(e) => onUpdateTag(tag.id, e.target.value)}
+                    />
+                  </Col>
+                  <Col xs="auto">
+                    <Button
+                      onClick={() => onDeleteTag(tag.id)}
+                      variant="outline-danger"
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </Button>
+                  </Col>
+                </Row>
+              ))
+            )}
           </Stack>
         </Form>
       </Modal.Body>

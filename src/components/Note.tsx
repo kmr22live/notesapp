@@ -1,6 +1,7 @@
 import { Badge, Button, Col, Row, Stack } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useNote } from "./NoteLayout";
+// import ReactMarkdown from "react-markdown";
 
 type NoteProps = {
   onDelete: (id: string) => void;
@@ -8,10 +9,11 @@ type NoteProps = {
 
 export function Note({ onDelete }: NoteProps) {
   const note = useNote();
+  console.log("last", note);
   const navigate = useNavigate();
 
   return (
-    <>
+    <div id="notes-hover">
       <Row className="align-items-center mb-4">
         <Col>
           <h1>{note.title}</h1>
@@ -45,7 +47,16 @@ export function Note({ onDelete }: NoteProps) {
           </Stack>
         </Col>
       </Row>
+      {/* <ReactMarkdown>{note.markdown}</ReactMarkdown> */}
+      {note?.image && (
+        <img
+          src={note?.image}
+          className="d-block"
+          style={{ maxWidth: "350px", maxHeight: "500px" }}
+          alt="image"
+        />
+      )}
       {note.markdown}
-    </>
+    </div>
   );
 }

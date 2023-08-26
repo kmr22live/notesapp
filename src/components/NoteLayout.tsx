@@ -16,12 +16,14 @@ export type Note = {
   title: string;
   markdown?: string | undefined;
   tagIds?: string[] | undefined;
+  image?: string | null;
 };
 type NoteLayoutProps = {
   notes: Note[];
 };
 
 export function NoteLayout({ notes }: NoteLayoutProps) {
+  console.log("noteslayout", notes);
   const { id } = useParams();
   const note = notes.find((n) => n.id === id);
 
