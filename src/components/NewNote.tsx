@@ -9,13 +9,13 @@ type NewNoteProps = {
 
 export function NewNote({ onSubmit, availableTags }: NewNoteProps) {
   return (
-    <>
+    <div id="notes-new-hover">
       <h1 className="mb-4">New Note</h1>
       <NoteForm
         onSubmit={onSubmit}
         // onAddTag={onAddTag}
         availableTags={availableTags}
       />
-    </>
+    </div>
   );
 }
