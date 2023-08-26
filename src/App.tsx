@@ -1,14 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useMemo, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { NewNote } from "./components/NewNote";
 import { v4 as uuidV4 } from "uuid";
 import { NoteList } from "./components/NoteList";
 import { NoteLayout } from "./components/NoteLayout";
 import { Note } from "./components/Note";
 import { EditNote } from "./components/EditNote";
-import { useAppDispatch, useAppSelector } from "./store/Store";
+import { useAppDispatch } from "./store/Store";
 import {
   addToNotes,
   addToTags,
@@ -21,6 +21,9 @@ import {
 } from "./store/NotesSlice";
 import { useSelector } from "react-redux";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
+import { selectAuthTokenData } from "./store/AuthSlice";
+import { getUserData } from "./services/storage/Storage";
 
 export type Note = {
   id: string;
@@ -40,6 +43,7 @@ export type NoteData = {
   title: string;
   markdown: string;
   tags: Tag[];
+  image?: string | null;
 };
 
 export type Tag = {
@@ -51,13 +55,21 @@ function App() {
   const dispatch = useAppDispatch();
   const notesReduxData = useSelector(selectNotesData);
   const tagsReduxData = useSelector(selectTagsData);
-  console.log(notesReduxData);
-  console.log(tagsReduxData);
+  const AuthTokenData = useSelector(selectAuthTokenData);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    const getdata = getUserData();
+    if (getdata === null) {
+      nav("/login");
+    }
+  }, []);
 
   const notesWithTags = useMemo(() => {
     return notesReduxData.map((note) => {
       return {
         ...note,
+        // tags: tagsReduxData.filter((tag) => tag),
         tags: tagsReduxData.filter((tag) => note.tagIds?.includes(tag.id)),
       };
     });
@@ -95,6 +107,9 @@ function App() {
     dispatch(deleteTags(id));
   }
 
+  // const isOnline = navigator.onLine;
+  // console.log("isonline", isOnline);
+
   return (
     <Container className="my-4">
       <Routes>
@@ -112,11 +127,7 @@ function App() {
         <Route
           path="/new"
           element={
-            <NewNote
-              onSubmit={onCreateNote}
-              // onAddTag={addTag}
-              availableTags={tagsReduxData}
-            />
+            <NewNote onSubmit={onCreateNote} availableTags={tagsReduxData} />
           }
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
@@ -124,16 +135,13 @@ function App() {
           <Route
             path="edit"
             element={
-              <EditNote
-                onSubmit={onUpdateNote}
-                // onAddTag={addTag}
-                availableTags={tagsReduxData}
-              />
+              <EditNote onSubmit={onUpdateNote} availableTags={tagsReduxData} />
             }
           />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/reg" element={<Register />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Container>
   );

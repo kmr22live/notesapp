@@ -4,8 +4,6 @@ import { auth } from "./Auth";
 
 interface User {
   email: string;
-  // Add other necessary properties from the Firebase user type
-  // ...
 }
 
 const AuthDetails = () => {

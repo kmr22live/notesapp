@@ -4,7 +4,6 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-// import { Note } from "../App";
 
 export type Tag = {
   id: string;
@@ -23,7 +22,6 @@ type NoteLayoutProps = {
 };
 
 export function NoteLayout({ notes }: NoteLayoutProps) {
-  console.log("noteslayout", notes);
   const { id } = useParams();
   const note = notes.find((n) => n.id === id);
 

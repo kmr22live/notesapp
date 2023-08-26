@@ -16,12 +16,6 @@ import { Tag } from "../App";
 import { useAppDispatch } from "../store/Store";
 import { logout } from "../store/AuthSlice";
 
-// type SimplifiedNote = {
-//   id: string;
-//   tagIds?: string[];
-//   tags: Tag[];
-//   title?: string;
-// };
 type SimplifiedNote = {
   tags: Tag[];
   title: string | undefined;
@@ -59,6 +53,11 @@ export function NoteList({
   const dispatch = useAppDispatch();
   const nav = useNavigate();
 
+  /**
+   * Use the useMemo hook to memoize the filtered notes, avoiding unnecessary recalculations
+   *
+   *  The dependencies for this memoization are 'title', 'selectedTags', and 'notes'. It ensures that the filtering is recalculated only when these values change
+   */
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
       return (
@@ -71,8 +70,6 @@ export function NoteList({
       );
     });
   }, [title, selectedTags, notes]);
-
-  console.log("select", selectedTags);
 
   return (
     <div id="app">
@@ -114,17 +111,13 @@ export function NoteList({
               className="justify-content-center align-self-center"
             >
               <Link to="/new" className="text-decoration-none">
-                {/* <Button variant="primary">Create</Button> */}
-                <Form
-                  onClick={() => {
-                    console.log("haoasdfasd");
-                  }}
-                >
+                <Form>
                   <Form.Group controlId="formGroupEmail">
                     <Form.Control
                       type="text"
                       className="shadow-none border-focus"
                       placeholder="Take a note..."
+                      style={{ width: "auto" }}
                     />
                   </Form.Group>
                 </Form>
@@ -172,6 +165,7 @@ export function NoteList({
                     }}
                     isMulti
                   />
+                  {/* by this we can change the tag input to single tag input */}
                   {/* <ReactSelect
                 value={selectedTags.map((tag) => {
                   return { label: tag.label, value: tag.id };
@@ -211,18 +205,26 @@ export function NoteList({
               title to quickly find notes and tags. - Filter your notes by
               selecting specific tags to narrow down your search tag.
               <br /> <strong>5. Account and Sign Out: - </strong>If you have an
-              account, you'll see your email displayed in the top right corner.
-              - To sign out, simply click on the "Sign Out" button. We hope you
-              find our app helpful for keeping your notes organized.
+              account, you can able to signin else you can able to signup
+              easily. - To sign out, simply click on the "Sign Out" button.
+              <br /> <strong>6. Adding Photos to Notes: - </strong>Our app
+              allows you to enhance your notes by adding photos. - When creating
+              or editing a note, look for the "Add Photo" option. - Click on it
+              to upload a photo from your device, and it will be associated with
+              your note.
+              <br /> <strong>7. Local Storage Availability:</strong>- Your notes
+              are important, and that's why we offer local storage. - Your notes
+              will be automatically saved on your device, so you can access them
+              even if you're offline.We hope you find our app helpful for
+              keeping your notes organized.
               <br /> If you have any questions or need assistance, feel free to
-              reach out to our support team.
+              reach out to our support team (soon will update).
               <br /> <strong>Happy note-taking!</strong>
             </div>
           </div>
         ) : (
           <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
             {filteredNotes.map((note) => {
-              console.log(note);
               return (
                 <Col key={note.id}>
                   <NoteCard

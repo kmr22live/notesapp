@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db, storage } from "../services/Auth/Auth";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../services/Auth/Auth";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  collection,
-  query,
-  setDoc,
-  where,
-  getDocs,
-  doc,
-} from "firebase/firestore";
 import { Button, Form } from "react-bootstrap";
 import { storeUserData } from "../services/storage/Storage";
-import { useDispatch, useSelector } from "react-redux"; // Update the import path for `createUserWithEmailAndPassword` and `auth`
-import { login, selectAuthTokenData } from "../store/AuthSlice"; // Make sure to import the correct action from your auth slice
-
-import { RootState, useAppDispatch } from "../store/Store"; // Update the import path for your RootState type
+import { useSelector } from "react-redux";
+import { login, selectAuthTokenData } from "../store/AuthSlice";
+import { RootState, useAppDispatch } from "../store/Store";
 
 interface Errors {
   email: { required: boolean };
@@ -37,20 +27,15 @@ const initialStateErrors: Errors = {
 const Register = () => {
   const authlogin = useSelector((state: RootState) => state.auth.authToken);
   const dispatch = useAppDispatch();
-  const notesReduxData = useSelector(selectAuthTokenData);
-  console.log("authlogin", authlogin);
-  console.log("notesReduxData", notesReduxData);
+  // const notesReduxData = useSelector(selectAuthTokenData); same as the login page, i tried both
 
-  console.log(notesReduxData);
   const nav = useNavigate();
   useEffect(() => {
     if (authlogin) {
       nav("/");
-      console.log("login eeee");
     }
   }, [authlogin]);
 
-  // const dispatch = useDispatch();
   const [errors, setErrors] = useState<Errors>(initialStateErrors);
 
   const [loading, setLoading] = useState(false);
@@ -64,9 +49,6 @@ const Register = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
-  useEffect(() => {
-    console.log(inputs);
-  }, [inputs]);
 
   const handleError = (): void => {
     let errors: Errors = initialStateErrors;
@@ -88,14 +70,11 @@ const Register = () => {
       errors.password.required = true;
       hasError = true;
     }
-    console.log(hasError);
-    console.log(inputs);
     if (!hasError) {
       setLoading(true);
       // sending register api request
       createUserWithEmailAndPassword(auth, inputs.email, inputs.password)
         .then((res) => {
-          console.log(res.user.uid);
           storeUserData(res.user.uid); // Implement your storeUserData function
 
           dispatch(login());
@@ -120,7 +99,6 @@ const Register = () => {
           setLoading(false);
         });
     }
-    console.log(initialStateErrors, errors);
     setErrors(errors);
   };
 
@@ -133,7 +111,9 @@ const Register = () => {
       <div className="signup-wrapper">
         <div id="signup">
           <section className="form signup ">
-            <header>Notes App</header>
+            <header>
+              <i className="fa-solid fa-note-sticky ps-1"></i> Notesapp
+            </header>
             <Form onSubmit={handleSubmit} className="form-inside">
               {errors.custom_error && (
                 <div className="error-text">{errors.custom_error}</div>
@@ -172,25 +152,9 @@ const Register = () => {
                   required
                   className="shadow-none"
                   onChange={handleChange}
+                  minLength={6}
                 />
-                {/* <div className="eye-btn" onClick={handleEyebtn}>
-                  <i
-                    className={`fa-regular ${
-                      eyebtn ? "fa-eye" : "fa-eye-slash"
-                    }`}
-                  ></i>
-                </div> */}
               </Form.Group>
-
-              {/* <Form.Group className="mb-3" controlId="image">
-              <Form.Label>Select Avatar</Form.Label>
-              <Form.Control
-                type="file"
-                name="image"
-                accept="image/x-png,image/gif,image/jpeg,image/jpg"
-                required
-              />
-            </Form.Group> */}
 
               <Button
                 className="mb-3 submit-btn"

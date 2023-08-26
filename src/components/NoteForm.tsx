@@ -6,34 +6,27 @@ import { NoteData, Tag } from "../App";
 import { v4 as uuidV4 } from "uuid";
 import { addToTags } from "../store/NotesSlice";
 import { useAppDispatch } from "../store/Store";
-import { app } from "../services/Auth/Auth"; // Import your Firebase configuration
-
+import { app } from "../services/Auth/Auth";
 import {
   getStorage,
   ref,
-  uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
 
-import ImageUpload from "./ImageUpload";
-
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
-  // onAddTag: (tag: Tag) => void;
   availableTags: Tag[];
 } & Partial<NoteData>;
 
 export function NoteForm({
   onSubmit,
-  // onAddTag,
   availableTags,
   title = "",
   markdown = "",
   tags = [],
   image,
 }: NoteFormProps) {
-  // console.log(availableTags, title, markdown, tags, image);
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
@@ -42,6 +35,11 @@ export function NoteForm({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const imageSrc = image || undefined;
+
+  /**
+   *
+   * @returns handleImageUpload is image upload function to firebase storage
+   */
   const handleImageUpload = async () => {
     if (!selectedImage) return;
 
@@ -74,7 +72,6 @@ export function NoteForm({
     handleImageUpload();
   }, [selectedImage]);
 
-  console.log(imageUrl);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -113,7 +110,7 @@ export function NoteForm({
                 className="select-tags"
                 onCreateOption={(label) => {
                   const newTag = { id: uuidV4(), label };
-                  // onAddTag(newTag);
+
                   dispatch(addToTags(newTag));
                   setSelectedTags((prev) => [...prev, newTag]);
                 }}
@@ -149,9 +146,7 @@ export function NoteForm({
         </Form.Group>
         <div>
           <input type="file" accept="image/*" onChange={handleImageChange} />
-          {/* <button className="" onClick={handleImageUpload}>
-            Upload Image
-          </button> */}
+
           {uploadProgress > 0 && (
             <p>Upload Progress: {uploadProgress.toFixed(2)}%</p>
           )}
@@ -168,7 +163,7 @@ export function NoteForm({
           )}
         </div>
         <Stack direction="horizontal" gap={2} className="justify-content-end">
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="dark">
             Save
           </Button>
           <Link to="..">
