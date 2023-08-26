@@ -105,7 +105,7 @@ export function NoteForm({
           </Col>
           <Col>
             <Form.Group controlId="tags">
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>Tags (type to add)</Form.Label>
               <CreatableReactSelect
                 className="select-tags"
                 onCreateOption={(label) => {
