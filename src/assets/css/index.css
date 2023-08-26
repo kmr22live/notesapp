@@ -191,10 +191,12 @@
   border-radius: 16px;
   box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
     0 32px 64px -48px rgba(0, 0, 0, 0.5);
+  padding-bottom: 100px;
 }
 @media (max-width: 575px) {
   #app {
     padding: 20px;
+    padding-bottom: 100px;
   }
 }
 
@@ -244,7 +246,7 @@ footer {
   left: 50%;
   transform: translateX(-50%);
   /* width: 100%; */
-  padding: 10px 0;
+  padding: 5px 0;
 }
 /* Change the color of the active and disabled pagination buttons to black */
 .pagination .page-item.active .page-link {
